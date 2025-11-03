@@ -1,0 +1,17 @@
+:root {
+    --thistle: #ddc4ddff;
+    --thistle-2: #dccfecff;
+    --tropical-indigo: #a997dfff;
+    --ultra-violet: #4f517dff;
+    --dark-slate-gray: #1a3a3aff;
+
+    /* gradients */
+    --gradient-primary: linear-gradient(
+        135deg,
+        var(--thistle),
+        var(--thistle-2),
+        var(--tropical-indigo),
+        var(--ultra-violet),
+        var(--dark-slate-gray)
+    );
+}
