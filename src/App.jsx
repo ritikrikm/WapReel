@@ -3,9 +3,8 @@ import './App.css'
 import { useSelector } from 'react-redux'
 import AuthCard from './components/AuthCard'
 import MainContainer from './components/MainContainer'
-import Dashboard from './components/Container/Dashboard'
-import Login from './components/Login'
-import Register from './components/Register'
+import ReelsViewer from './components/ReelsViewer/ReelsViewer'
+import { reelsMock } from './data/reelsMockData'
 function App() {
     const user = useSelector((state) => state.auth.user)
 
@@ -39,6 +38,10 @@ function App() {
                     <Route
                         path="/dashboard"
                         element={user ? <MainContainer /> : <MainContainer />}
+                    />
+                    <Route
+                        path="/reels"
+                        element={<ReelsViewer videos={reelsMock} />}
                     />
                     <Route path="*" element={<h3>404 Page not found</h3>} />
                 </Routes>

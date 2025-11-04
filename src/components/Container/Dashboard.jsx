@@ -1,6 +1,6 @@
 import AvatarCard from '../Card/AvatarCard'
 import TrendingCard from '../Card/TrendingCard'
-
+import FloatingMessageWidget from '../Container/FloatingMessaging/FloatingMessageWidget'
 export default function Dashboard() {
     return (
         <div className="min-h-screen bg-[var(--thistle-2)] flex justify-center py-8 px-4">
@@ -73,6 +73,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
+            <FloatingMessageWidget />
         </div>
     )
 }
