@@ -1,22 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    user:null, //will store user info
+    user: null, // will store user info, including avatarUrl (glb path)
 }
+
 const authSlice = createSlice({
-    name:"auth",
+    name: 'auth',
     initialState,
-    reducers:{
-        register:(state,action)=>{
+    reducers: {
+        register: (state, action) => {
             state.user = action.payload
         },
-        login:(state,action)=>{
+        login: (state, action) => {
             state.user = action.payload
         },
-        logout:(state)=>{
-            state.user = null;
+        logout: (state) => {
+            state.user = null
+        },
+        updateAvatar: (state, action) => {
+            if (state.user) state.user.avatarUrl = action.payload
         },
     },
-});
-export const {register , login , logout} = authSlice.actions;
-export default authSlice.reducer;
+})
+
+export const { register, login, logout, updateAvatar } = authSlice.actions
+export default authSlice.reducer

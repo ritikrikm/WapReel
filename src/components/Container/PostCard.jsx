@@ -2,6 +2,11 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleLike, toggleSave, addComment } from '../../features/postSlice'
 import {
+    openSyncModal,
+    closeSyncModal,
+    selectSyncDuration,
+} from '../../features/syncSlice'
+import {
     FaHeart,
     FaRegHeart,
     FaRegComment,
@@ -10,12 +15,23 @@ import {
 } from 'react-icons/fa'
 import PostComments from './PostComents'
 import CommentsModal from './CommentsModal'
+import SyncModal from './SyncModal'
+import SyncTooltip from './SyncTooltip'
 
 export default function PostCard({ post }) {
     const dispatch = useDispatch()
+    const syncState = useSelector((state) => state.sync)
     const user = useSelector((state) => state.auth.user)
     const [commentText, setCommentText] = useState('')
-    const [showModal, setShowModal] = useState(false)
+    const [hover, setHover] = useState(false)
+    const [showModal, setShowModal] = useState(false) // ✅ added back
+
+    const isSynced = Boolean(syncState.syncedPosts[post.id])
+    const syncedDuration = syncState.syncedPosts[post.id]
+
+    const handleSyncClick = () => {
+        dispatch(openSyncModal(post))
+    }
 
     const handleAddComment = () => {
         if (!commentText.trim()) return
@@ -31,7 +47,7 @@ export default function PostCard({ post }) {
 
     return (
         <>
-            <div className="max-w-md mx-auto bg-white text-gray-900 rounded-xl overflow-hidden shadow-md border border-gray-200 my-6">
+            <div className="max-w-md mx-auto bg-white text-gray-900 rounded-xl shadow-md border border-gray-200 my-6 relative overflow-visible">
                 {/* Header */}
                 <div className="flex items-center justify-between px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -49,12 +65,33 @@ export default function PostCard({ post }) {
                             </p>
                         </div>
                     </div>
-                    <button className="text-blue-500 text-sm font-medium hover:underline">
-                        Follow
-                    </button>
+
+                    {/* Sync Button + Tooltip */}
+                    <div
+                        className="relative"
+                        onMouseEnter={() => setHover(true)}
+                        onMouseLeave={() => setHover(false)}
+                    >
+                        {isSynced && (
+                            <SyncTooltip
+                                show={hover}
+                                text={`Synchronized for ${syncedDuration} 💜`}
+                            />
+                        )}
+                        <button
+                            onClick={handleSyncClick}
+                            className={`text-sm font-semibold cursor-pointer transition ${
+                                isSynced
+                                    ? 'text-[var(--ultra-violet)] hover:text-[var(--ultra-violet)]'
+                                    : 'text-[var(--ultra-violet)] hover:underline'
+                            }`}
+                        >
+                            {isSynced ? 'Synchronized' : 'Sync'}
+                        </button>
+                    </div>
                 </div>
 
-                {/* Image */}
+                {/* Post Image */}
                 <img
                     src={post.image}
                     alt={post.caption}
@@ -129,11 +166,21 @@ export default function PostCard({ post }) {
                 </div>
             </div>
 
-            {/* ✅ Comments Modal */}
+            {/* Comments Modal */}
             {showModal && (
                 <CommentsModal
                     post={post}
                     onClose={() => setShowModal(false)}
+                />
+            )}
+
+            {/* Sync Modal */}
+            {syncState.isOpen && syncState.selectedPost?.id === post.id && (
+                <SyncModal
+                    show={syncState.isOpen}
+                    onClose={() => dispatch(closeSyncModal())}
+                    onSelect={(val) => dispatch(selectSyncDuration(val))}
+                    isResync={isSynced}
                 />
             )}
         </>
