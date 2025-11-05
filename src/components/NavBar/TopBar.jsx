@@ -12,43 +12,41 @@ export default function TopBar() {
     }
 
     return (
-        <header className="fixed top-0 left-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between max-w-7xl mx-auto px-6 py-3">
-                {/* Left: Logo */}
-                <div className="flex items-center gap-2">
-                    <h1
-                        className="text-lg md:text-xl font-bold tracking-tight"
-                        style={{ color: 'var(--ultra-violet)' }}
-                    >
+        <header className="fixed top-0 left-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+                {/* --- LEFT: LOGO + USER --- */}
+                <div className="flex items-center gap-3">
+                    <h1 className="text-xl font-semibold tracking-tight text-[var(--ultra-violet)]">
                         Nothing
                     </h1>
                     {user && (
-                        <span className="text-xs text-gray-500 font-medium hidden sm:inline">
-                            | Welcome, {user.name || 'User'}
+                        <span className="hidden sm:block text-sm text-gray-500">
+                            Welcome,{' '}
+                            <span className="font-medium text-gray-700">
+                                {user.name || 'User'}
+                            </span>
                         </span>
                     )}
                 </div>
 
-                {/* Middle: Search */}
-                <div className="relative flex-1 max-w-xs mx-4 hidden md:block">
-                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                {/* --- MIDDLE: SEARCH --- */}
+                <div className="relative flex-1 mx-6 hidden md:block max-w-md">
+                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
                     <input
                         type="text"
                         placeholder="Search..."
-                        className="w-full rounded-full border border-gray-300 px-9 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--ultra-violet)] transition-all bg-white/60 backdrop-blur-sm"
+                        className="w-full rounded-full border border-gray-300 pl-10 pr-4 py-2 text-sm text-gray-700 bg-white shadow-inner focus:ring-2 focus:ring-[var(--ultra-violet)] focus:border-transparent outline-none transition-all duration-200"
                     />
                 </div>
 
-                {/* Right: Logout */}
-                <div className="flex items-center">
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-1 bg-[var(--poppy)] text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-sm hover:bg-[var(--poppy)]/90 transition-all duration-200"
-                    >
-                        <FaSignOutAlt className="text-sm" />
-                        Logout
-                    </button>
-                </div>
+                {/* --- RIGHT: LOGOUT --- */}
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--ultra-violet)] text-white text-sm font-medium shadow-md hover:bg-[var(--ultra-violet)]/90 active:scale-95 transition-all duration-200"
+                >
+                    <FaSignOutAlt className="text-sm" />
+                    <span>Logout</span>
+                </button>
             </div>
         </header>
     )
